@@ -1,43 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy Birthday Queen 💖</title>
+    <meta charset="UTF-8">
+    <title>Happy Birthday ❤️</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<canvas id="particleCanvas"></canvas>
+    <!-- Particle Background -->
+    <canvas id="particleCanvas"></canvas>
 
-<div class="main-wrapper">
-
-    <div class="intro-section" id="introSection">
-        <button class="heart-button" id="startBtn">
-            <span class="heart-icon">💗</span>
-            <span class="btn-text">Click me birthday queen</span>
+    <!-- Center Button Section -->
+    <div class="center-container">
+        <button id="startBtn">
+            <span class="heart-icon">💖</span>
+            Click me birthday queen
         </button>
     </div>
 
+    <!-- Tree Section -->
     <div class="tree-section" id="treeSection">
         <div class="tree">
-            <div class="root" id="root"></div>
+
+            <!-- Roots -->
+            <div class="roots"></div>
+
+            <!-- Trunk -->
             <div class="trunk"></div>
-            <div class="leaves" id="leaves"></div>
+
+            <!-- Branches -->
+            <div class="branch left-branch" id="leftBranch"></div>
+            <div class="branch right-branch" id="rightBranch"></div>
+
         </div>
     </div>
 
+    <!-- Message Section -->
     <div class="message-section" id="messageSection">
         <div class="message-card">
             <div id="typedText"></div>
         </div>
     </div>
 
-</div>
+    <!-- JavaScript -->
+    <script src="script.js"></script>
 
-<script src="script.js"></script>
 </body>
 </html>
