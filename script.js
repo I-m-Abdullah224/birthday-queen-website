@@ -56,14 +56,15 @@ function startHearts() {
 
 /* TYPING EFFECT */
 const messages = [
-    "Hey, you💕",
+    "Hey, Areej💕",
     "Happy birthday 🎈",
     "May God bless you🍀",
     "And bring you more happiness 💗",
-    "Just saying you are pretty... pretty awesome❣️",
+    "Just saying you are pretty and pretty awesome❣️",
     "Sending good vibes and maybe a... wink😏",
     "Hope you have a great day today🤞🏻",
     "Love You Baby Girl♥️🐥"
+    "🫶🏻😁"
 ];
 
 function typeMessage(index = 0) {
@@ -108,4 +109,5 @@ startBtn.addEventListener("click", () => {
     }, 600);
 
 });
+
 
