@@ -64,6 +64,7 @@ const messages = [
     "Sending good vibes and maybe a... wink😏",
     "Hope you have a great day today🤞🏻",
     "Love You Baby Girl♥️🐥"
+    "🫶🏻😁"
 ];
 
 function typeMessage(index = 0) {
@@ -108,6 +109,7 @@ startBtn.addEventListener("click", () => {
     }, 600);
 
 });
+
 
 
 
