@@ -1,139 +1,225 @@
-/* GLOBAL RESET */
+/* ===============================
+   GLOBAL RESET
+=================================*/
 * {
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
+    background: #000;
     font-family: 'Poppins', sans-serif;
-    background: radial-gradient(circle at center, #0a0a0a, #000);
-    overflow:hidden;
-    color:white;
+    overflow: hidden;
+    color: white;
 }
 
-/* PARTICLE CANVAS */
+/* ===============================
+   PARTICLE CANVAS
+=================================*/
 #particleCanvas {
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    z-index:0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
 }
 
-/* MAIN WRAPPER */
-.main-wrapper {
-    position:relative;
-    z-index:2;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+/* ===============================
+   CENTER CONTAINER
+=================================*/
+.center-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* INTRO SECTION */
-.intro-section {
-    position:absolute;
+/* ===============================
+   HEART BUTTON
+=================================*/
+#startBtn {
+    background: linear-gradient(45deg, #ff2e9d, #ff6ec7);
+    border: none;
+    padding: 18px 30px;
+    border-radius: 50px;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 0 25px rgba(255, 0, 150, 0.6);
+    transition: all 0.3s ease;
 }
 
-.heart-button {
-    display:flex;
-    align-items:center;
-    gap:15px;
-    padding:18px 35px;
-    font-size:18px;
-    border:none;
-    border-radius:60px;
-    cursor:pointer;
-    background: linear-gradient(135deg,#ff4da6,#ff1a75);
-    box-shadow:0 0 30px rgba(255,0,128,0.5);
-    transition:all 0.4s ease;
-}
-
-.heart-button:hover {
-    transform:scale(1.05);
+#startBtn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 40px rgba(255, 0, 150, 0.9);
 }
 
 .heart-icon {
-    font-size:28px;
-    animation:pulse 1.5s infinite;
+    font-size: 22px;
 }
 
-@keyframes pulse {
-    0%,100%{transform:scale(1);}
-    50%{transform:scale(1.2);}
-}
-
-/* TREE */
+/* ===============================
+   TREE SECTION
+=================================*/
 .tree-section {
-    position:absolute;
-    bottom:-300px;
-    transition:all 2s cubic-bezier(.77,0,.18,1);
+    position: absolute;
+    bottom: -350px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: all 2s cubic-bezier(.77,0,.18,1);
 }
 
+/* Tree container */
+.tree {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: sway 6s ease-in-out infinite;
+}
+
+/* Gentle sway */
+@keyframes sway {
+    0%, 100% { transform: translateX(-50%) rotate(0deg); }
+    50% { transform: translateX(-50%) rotate(1deg); }
+}
+
+/* Roots */
+.roots {
+    width: 120px;
+    height: 40px;
+    background: radial-gradient(circle at center, #3e1f0d, #000);
+    border-radius: 50%;
+    margin-bottom: -15px;
+    filter: blur(2px);
+}
+
+/* Trunk */
 .trunk {
-    width:20px;
-    height:160px;
-    background:#5c3317;
-    margin:0 auto;
-    border-radius:10px;
+    width: 32px;
+    height: 230px;
+    background: linear-gradient(to right, #3e1f0d, #6b3e1e, #3e1f0d);
+    border-radius: 20px;
+    box-shadow: inset -6px 0 10px rgba(0,0,0,0.6);
 }
 
-.root {
-    width:8px;
-    height:0;
-    background:#5c3317;
-    margin:0 auto;
-    transition:height 2s ease;
+/* ===============================
+   BRANCHES
+=================================*/
+.branch {
+    position: absolute;
+    width: 160px;
+    height: 10px;
+    background: #5c3317;
+    border-radius: 10px;
+    top: 90px;
 }
 
-.leaves {
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:12px;
-    margin-top:15px;
-    opacity:0;
-    transition:opacity 2s ease;
+.left-branch {
+    left: -140px;
+    transform-origin: right center;
+    transform: rotate(-32deg);
 }
 
-.leaf {
-    font-size:26px;
-    animation:leafFloat 4s ease-in-out infinite;
+.right-branch {
+    right: -140px;
+    transform-origin: left center;
+    transform: rotate(32deg);
 }
 
-@keyframes leafFloat {
-    0%,100%{transform:translateY(0);}
-    50%{transform:translateY(-10px);}
+/* ===============================
+   BLOOMING HEART LEAVES
+=================================*/
+.heart-leaf {
+    position: absolute;
+    font-size: 26px;
+    transform: scale(0);
+    animation: bloom 0.8s ease forwards;
+    filter: drop-shadow(0 0 12px rgba(255, 0, 150, 0.7));
 }
 
-/* MESSAGE */
+/* Bloom animation */
+@keyframes bloom {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    60% {
+        transform: scale(1.4);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ===============================
+   MESSAGE SECTION
+=================================*/
 .message-section {
-    position:absolute;
-    left:8%;
-    top:15%;
-    opacity:0;
-    transition:opacity 2s ease;
+    position: absolute;
+    top: 12%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 1.5s ease;
 }
 
+/* Glassmorphism card */
 .message-card {
-    background:rgba(255,255,255,0.06);
-    backdrop-filter:blur(15px);
-    padding:30px;
-    border-radius:20px;
-    width:350px;
-    box-shadow:0 0 40px rgba(255,0,128,0.2);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    padding: 35px 45px;
+    border-radius: 20px;
+    box-shadow: 0 0 40px rgba(255, 0, 150, 0.3);
+    text-align: center;
+    max-width: 600px;
 }
 
-.message-card p {
-    margin:10px 0;
-    font-size:18px;
+/* Typed text styling */
+#typedText p {
+    font-size: 20px;
+    margin: 10px 0;
+    letter-spacing: 1px;
 }
 
-/* RESPONSIVE */
-@media(max-width:768px){
-    .message-card{
-        width:260px;
+/* ===============================
+   RESPONSIVE DESIGN
+=================================*/
+@media (max-width: 768px) {
+
+    #startBtn {
+        font-size: 15px;
+        padding: 14px 20px;
+    }
+
+    .trunk {
+        height: 180px;
+    }
+
+    .branch {
+        width: 120px;
+    }
+
+    .left-branch {
+        left: -110px;
+    }
+
+    .right-branch {
+        right: -110px;
+    }
+
+    .message-card {
+        width: 90%;
+        padding: 25px;
+    }
+
+    #typedText p {
+        font-size: 16px;
     }
 }
