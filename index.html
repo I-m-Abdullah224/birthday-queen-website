@@ -5,56 +5,81 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Birthday 💖</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
 <style>
-body{
+*{
     margin:0;
     padding:0;
-    background:black;
-    color:white;
-    font-family: 'Segoe UI', sans-serif;
-    overflow:hidden;
-    text-align:center;
+    box-sizing:border-box;
 }
 
+body{
+    font-family:'Poppins',sans-serif;
+    background:black;
+    overflow:hidden;
+    color:white;
+}
+
+/* Floating hearts background */
+.background{
+    position:absolute;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    z-index:0;
+}
+
+.background span{
+    position:absolute;
+    display:block;
+    color:#ff4da6;
+    animation:float 10s linear infinite;
+    opacity:0.3;
+}
+
+@keyframes float{
+    0%{transform:translateY(100vh) scale(0.5);}
+    100%{transform:translateY(-10vh) scale(1.2);}
+}
+
+/* Main container */
 .container{
     position:relative;
+    z-index:2;
     height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
     flex-direction:column;
+    text-align:center;
 }
 
 /* Heart Button */
 .heart-btn{
     display:flex;
     align-items:center;
-    gap:10px;
-    font-size:18px;
+    gap:12px;
     cursor:pointer;
+    padding:15px 25px;
+    border-radius:50px;
+    background:linear-gradient(45deg,#ff4da6,#ff80bf);
+    box-shadow:0 0 20px rgba(255,0,150,0.6);
     transition:all 0.5s ease;
 }
 
+.heart-btn:hover{
+    transform:scale(1.05);
+}
+
 .heart{
-    font-size:40px;
-    color:pink;
+    font-size:28px;
     animation:pulse 1.5s infinite;
 }
 
 @keyframes pulse{
-    0%{transform:scale(1);}
+    0%,100%{transform:scale(1);}
     50%{transform:scale(1.2);}
-    100%{transform:scale(1);}
-}
-
-/* Drop animation */
-.drop{
-    animation:dropDown 1s forwards;
-}
-
-@keyframes dropDown{
-    0%{transform:translateY(0);}
-    100%{transform:translateY(200px);}
 }
 
 /* Tree */
@@ -67,16 +92,17 @@ body{
 }
 
 .trunk{
-    width:15px;
-    height:120px;
-    background:brown;
+    width:18px;
+    height:140px;
+    background:#5c3317;
     margin:0 auto;
+    border-radius:10px;
 }
 
 .root{
-    width:5px;
+    width:6px;
     height:0;
-    background:brown;
+    background:#5c3317;
     margin:0 auto;
     transition:height 2s ease;
 }
@@ -92,53 +118,59 @@ body{
 }
 
 .leaf{
-    font-size:24px;
-    animation:float 3s infinite ease-in-out;
+    font-size:26px;
+    animation:leafFloat 3s ease-in-out infinite;
 }
 
-@keyframes float{
-    0%{transform:translateY(0);}
-    50%{transform:translateY(-10px);}
-    100%{transform:translateY(0);}
+@keyframes leafFloat{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-8px);}
 }
 
-/* Slide right */
 .slide{
     left:75%;
 }
 
-/* Message */
+/* Message Card */
 .message{
     position:absolute;
     left:10%;
     top:20%;
-    text-align:left;
+    max-width:350px;
     opacity:0;
     transition:opacity 2s ease;
-    max-width:300px;
+}
+
+.message-card{
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(10px);
+    padding:25px;
+    border-radius:15px;
+    border:1px solid rgba(255,255,255,0.1);
+    box-shadow:0 0 20px rgba(255,0,150,0.3);
 }
 
 .message p{
     margin:10px 0;
     font-size:18px;
-    line-height:1.4;
 }
 
 /* Responsive */
 @media(max-width:768px){
+    .slide{
+        left:60%;
+    }
     .message{
         left:5%;
         max-width:250px;
-        font-size:16px;
-    }
-    .heart-btn{
-        font-size:16px;
     }
 }
 </style>
 </head>
 
 <body>
+
+<div class="background" id="bg"></div>
 
 <div class="container">
 
@@ -161,88 +193,81 @@ body{
     </div>
 
     <div class="message" id="message">
-        <p>Hey, you💕</p>
-        <p>Happy birthday 🎈</p>
-        <p>May god bless you🍀</p>
-        <p>And bring you more happiness 💗</p>
-        <p>Just saying you are pretty............ pretty awesome❣️</p>
-        <p>Sending good vibes and maybe a...........wink😏</p>
-        <p>Hope you have a great day today🤞🏻</p>
-        <p>Luv yaa🫶🏻😁</p>
+        <div class="message-card" id="messageCard"></div>
     </div>
 
 </div>
 
 <script>
+const bg = document.getElementById("bg");
+for(let i=0;i<25;i++){
+    const span=document.createElement("span");
+    span.innerHTML="💖";
+    span.style.left=Math.random()*100+"%";
+    span.style.fontSize=Math.random()*20+15+"px";
+    span.style.animationDuration=Math.random()*10+5+"s";
+    bg.appendChild(span);
+}
 
-const btn = document.getElementById("btn");
-const tree = document.getElementById("tree");
-const root = document.getElementById("root");
-const leaves = document.getElementById("leaves");
-const message = document.getElementById("message");
+const btn=document.getElementById("btn");
+const tree=document.getElementById("tree");
+const root=document.getElementById("root");
+const leaves=document.getElementById("leaves");
+const message=document.getElementById("message");
+const messageCard=document.getElementById("messageCard");
 
-const lines = [
+const lines=[
 "Hey, you💕",
 "Happy birthday 🎈",
-"May god bless you🍀",
+"May God bless you🍀",
 "And bring you more happiness 💗",
-"Just saying you are pretty............ pretty awesome❣️",
-"Sending good vibes and maybe a...........wink😏",
+"Just saying you are pretty... pretty awesome❣️",
+"Sending good vibes and maybe a... wink😏",
 "Hope you have a great day today🤞🏻",
 "Luv yaa🫶🏻😁"
 ];
 
-function typeLine(text, element, delay){
-    let i = 0;
-    const interval = setInterval(()=>{
-        element.innerHTML += text.charAt(i);
-        i++;
-        if(i === text.length){
-            clearInterval(interval);
-        }
-    }, 40);
+function typeLine(text,delay){
+    const p=document.createElement("p");
+    messageCard.appendChild(p);
+    let i=0;
+    setTimeout(()=>{
+        const interval=setInterval(()=>{
+            p.innerHTML+=text.charAt(i);
+            i++;
+            if(i===text.length){
+                clearInterval(interval);
+            }
+        },40);
+    },delay);
 }
 
-function startTyping(){
-    message.innerHTML = "";
-    let delay = 0;
-
-    lines.forEach((line)=>{
-        const p = document.createElement("p");
-        message.appendChild(p);
-
-        setTimeout(()=>{
-            typeLine(line, p);
-        }, delay);
-
-        delay += line.length * 40 + 800;
-    });
-}
-
-btn.addEventListener("click", ()=>{
-
-    btn.classList.add("drop");
+btn.addEventListener("click",()=>{
+    btn.style.display="none";
 
     setTimeout(()=>{
         tree.style.bottom="0";
         root.style.height="60px";
-    },1000);
+    },500);
 
     setTimeout(()=>{
         leaves.style.opacity="1";
-    },2500);
+    },2000);
 
     setTimeout(()=>{
         tree.classList.add("slide");
-    },4000);
+    },3500);
 
     setTimeout(()=>{
         message.style.opacity="1";
-        startTyping();
-    },5000);
-
+        let totalDelay=0;
+        lines.forEach(line=>{
+            typeLine(line,totalDelay);
+            totalDelay+=line.length*40+800;
+        });
+    },4500);
 });
-
 </script>
+
 </body>
 </html>
