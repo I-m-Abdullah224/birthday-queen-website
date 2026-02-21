@@ -1,106 +1,60 @@
-// ===============================
-// PARTICLE BACKGROUND SYSTEM
-// ===============================
-
-const canvas = document.getElementById("particleCanvas");
-const ctx = canvas.getContext("2d");
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-let particles = [];
-
-class Particle {
-    constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 3 + 1;
-        this.speedY = Math.random() * 0.6 + 0.3;
-        this.opacity = Math.random() * 0.5 + 0.2;
-    }
-
-    update() {
-        this.y -= this.speedY;
-        if (this.y < 0) {
-            this.y = canvas.height;
-            this.x = Math.random() * canvas.width;
-        }
-    }
-
-    draw() {
-        ctx.fillStyle = `rgba(255, 0, 150, ${this.opacity})`;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-    }
-}
-
-function initParticles() {
-    particles = [];
-    for (let i = 0; i < 120; i++) {
-        particles.push(new Particle());
-    }
-}
-
-function animateParticles() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => {
-        p.update();
-        p.draw();
-    });
-    requestAnimationFrame(animateParticles);
-}
-
-initParticles();
-animateParticles();
-
-window.addEventListener("resize", () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    initParticles();
-});
-
-// ===============================
-// TREE + BLOOM SYSTEM
-// ===============================
-
 const startBtn = document.getElementById("startBtn");
-const treeSection = document.getElementById("treeSection");
+const heartsContainer = document.getElementById("heartsContainer");
 const messageSection = document.getElementById("messageSection");
 const typedText = document.getElementById("typedText");
 
-function bloomHearts() {
+const heartEmojis = ["💖","💗","💘","💞","💕","💓","❤️","🩷","🧡","💜"];
 
-    const heartTypes = ["💖","💗","💘","💞","💕","💓"];
-    const leftBranch = document.getElementById("leftBranch");
-    const rightBranch = document.getElementById("rightBranch");
+/* HEART BURST */
+function heartBurst(x, y) {
 
-    for (let i = 0; i < 6; i++) {
+    const burstCount = 30;
 
-        // LEFT BRANCH
-        let heartLeft = document.createElement("div");
-        heartLeft.className = "heart-leaf";
-        heartLeft.innerHTML = heartTypes[Math.floor(Math.random() * heartTypes.length)];
-        heartLeft.style.left = (i * 22) + "px";
-        heartLeft.style.top = "-18px";
-        heartLeft.style.animationDelay = (i * 0.3) + "s";
-        leftBranch.appendChild(heartLeft);
+    for (let i = 0; i < burstCount; i++) {
 
-        // RIGHT BRANCH
-        let heartRight = document.createElement("div");
-        heartRight.className = "heart-leaf";
-        heartRight.innerHTML = heartTypes[Math.floor(Math.random() * heartTypes.length)];
-        heartRight.style.right = (i * 22) + "px";
-        heartRight.style.top = "-18px";
-        heartRight.style.animationDelay = (i * 0.3) + "s";
-        rightBranch.appendChild(heartRight);
+        const heart = document.createElement("div");
+        heart.className = "burst-heart";
+        heart.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+
+        heart.style.left = x + "px";
+        heart.style.top = y + "px";
+
+        const angle = Math.random() * 2 * Math.PI;
+        const distance = 80 + Math.random() * 120;
+
+        const moveX = Math.cos(angle) * distance;
+        const moveY = Math.sin(angle) * distance;
+
+        heart.style.setProperty("--x", moveX + "px");
+        heart.style.setProperty("--y", moveY + "px");
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 1000);
     }
 }
 
-// ===============================
-// TYPING EFFECT SYSTEM
-// ===============================
+/* FLOATING HEARTS */
+function createHeart() {
 
+    const heart = document.createElement("div");
+    heart.className = "floating-heart";
+    heart.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (20 + Math.random() * 30) + "px";
+    heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+
+    heartsContainer.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 8000);
+}
+
+function startHearts() {
+    setInterval(createHeart, 250);
+}
+
+/* TYPING EFFECT */
 const messages = [
     "Hey, you💕",
     "Happy birthday 🎈",
@@ -128,34 +82,29 @@ function typeMessage(index = 0) {
 
         if (i === text.length) {
             clearInterval(typing);
-            setTimeout(() => typeMessage(index + 1), 700);
+            setTimeout(() => typeMessage(index + 1), 800);
         }
     }, 40);
 }
 
-// ===============================
-// MAIN SEQUENCE CONTROLLER
-// ===============================
-
+/* CLICK EVENT */
 startBtn.addEventListener("click", () => {
 
-    // Hide button
-    startBtn.style.display = "none";
+    const rect = startBtn.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
 
-    // Grow tree upward
-    setTimeout(() => {
-        treeSection.style.bottom = "0";
-    }, 400);
+    heartBurst(centerX, centerY);
 
-    // Bloom hearts
     setTimeout(() => {
-        bloomHearts();
-    }, 2000);
+        startBtn.style.display = "none";
+        startHearts();
 
-    // Show message card
-    setTimeout(() => {
-        messageSection.style.opacity = "1";
-        typeMessage();
-    }, 3500);
+        setTimeout(() => {
+            messageSection.style.opacity = "1";
+            typeMessage();
+        }, 1500);
+
+    }, 600);
 
 });
