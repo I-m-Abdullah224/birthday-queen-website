@@ -3,7 +3,7 @@ const heartsContainer = document.getElementById("heartsContainer");
 const messageSection = document.getElementById("messageSection");
 const typedText = document.getElementById("typedText");
 
-const heartEmojis = ["💖","💗","💘","💞","💕","💓","❤️","🩷","🧡","💜"];
+const heartEmojis = ["💖","💗","💘","💞","💕","💓","❤️","♥️","🧡","💜"];
 
 /* HEART BURST */
 function heartBurst(x, y) {
@@ -63,7 +63,7 @@ const messages = [
     "Just saying you are pretty... pretty awesome❣️",
     "Sending good vibes and maybe a... wink😏",
     "Hope you have a great day today🤞🏻",
-    "Luv yaa🫶🏻😁"
+    "Love You Baby Girl♥️🐥"
 ];
 
 function typeMessage(index = 0) {
@@ -108,3 +108,4 @@ startBtn.addEventListener("click", () => {
     }, 600);
 
 });
+
